@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Timer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Simple Timer</h1>
+
+    <div class="timer-display" id="timerDisplay">00:00</div>
+
+    <div class="total-time-section">
+      <label>合計時間</label>
+      <div class="time-input-group">
+        <input type="number" id="totalMinutes" min="0" max="99" value="5" placeholder="分">
+        <span>:</span>
+        <input type="number" id="totalSeconds" min="0" max="59" value="0" placeholder="秒">
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="startBtn" class="btn btn-primary">Start</button>
+      <button id="pauseBtn" class="btn btn-secondary" disabled>Pause</button>
+      <button id="resetBtn" class="btn btn-secondary">Reset</button>
+    </div>
+
+    <div class="alarm-section">
+      <h2>アラーム</h2>
+      <div class="alarm-add">
+        <span class="alarm-add-label">残り</span>
+        <div class="time-input-group">
+          <input type="number" id="alarmMinutes" min="0" max="99" value="0" placeholder="分">
+          <span>:</span>
+          <input type="number" id="alarmSeconds" min="0" max="59" value="10" placeholder="秒">
+        </div>
+        <span class="alarm-add-label">でアラーム</span>
+        <button id="addAlarmBtn" class="btn btn-add">追加</button>
+      </div>
+      <ul id="alarmList" class="alarm-list"></ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
