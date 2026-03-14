@@ -4,6 +4,8 @@ let intervalId = null;
 let lastTick = null;
 let alarms = [];
 
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
 const timerDisplay = document.getElementById('timerDisplay');
 const totalMinutesInput = document.getElementById('totalMinutes');
 const totalSecondsInput = document.getElementById('totalSeconds');
@@ -35,31 +37,29 @@ function updateDisplay() {
 }
 
 function playBeep() {
-  const ctx = new AudioContext();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
   osc.connect(gain);
-  gain.connect(ctx.destination);
+  gain.connect(audioCtx.destination);
   osc.frequency.value = 880;
-  gain.gain.setValueAtTime(0.3, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
-  osc.start(ctx.currentTime);
-  osc.stop(ctx.currentTime + 0.5);
+  gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+  osc.start(audioCtx.currentTime);
+  osc.stop(audioCtx.currentTime + 0.5);
 }
 
 function playFinishAlarm() {
-  const ctx = new AudioContext();
-  const gain = ctx.createGain();
-  gain.connect(ctx.destination);
+  const gain = audioCtx.createGain();
+  gain.connect(audioCtx.destination);
 
   [0, 0.4, 0.8].forEach((offset) => {
-    const osc = ctx.createOscillator();
+    const osc = audioCtx.createOscillator();
     osc.connect(gain);
     osc.frequency.value = 523;
-    gain.gain.setValueAtTime(0.4, ctx.currentTime + offset);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + offset + 0.35);
-    osc.start(ctx.currentTime + offset);
-    osc.stop(ctx.currentTime + offset + 0.35);
+    gain.gain.setValueAtTime(0.4, audioCtx.currentTime + offset);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + offset + 0.35);
+    osc.start(audioCtx.currentTime + offset);
+    osc.stop(audioCtx.currentTime + offset + 0.35);
   });
 }
 
@@ -94,6 +94,7 @@ function checkAlarms() {
 }
 
 function start() {
+  audioCtx.resume();
   totalMs = getTotalMs();
   if (totalMs === 0) return;
   if (elapsedMs >= totalMs) return;
